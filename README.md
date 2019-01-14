@@ -1,2 +1,2 @@
-# semiempy
+# semiEmPy
 Semiempirical Quantum Chemistry Methods
