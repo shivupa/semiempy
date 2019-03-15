@@ -2,8 +2,9 @@ import numpy as np
 import time
 from utils.molecule_utils import distance
 from utils.general_io import print_header
+from abc import ABC, abstractmethod
 
-class Method:
+class Method(ABC):
     """
     Class for semiempirical methods
 
@@ -39,9 +40,6 @@ class Method:
     def print_iteration(self):
         print("{:^79}".format("{:>4d}  {:>11f}  {:>.5E}  {:>.5E}  {:>11f}".format(self.iteration_num,self.iteration_end_time - self.iteration_start_time, self.iteration_rmsc_dm, self.iteration_E_diff, self.E_elec)))
 
-    def print_error(self):
-        print("{:^79}".format("SOMETHING HAS GONE HORRIBLY WRONG!"))
-
     def print_success(self):
         print("{:^79}".format("{} Converged!".format(self.name)))
         print("{:^79}".format("{:>20}  {:>11f}".format("ELECTRONIC ENERGY",self.E_elec)))
@@ -57,29 +55,37 @@ class Method:
         print("{:^79}".format("SOMETHING HAS GONE HORRIBLY WRONG!"))
         print("{:^79}".format("{:>20}  {:>11f}".format("RUNTIME (s)",self.end_time - self.start_time)))
 
+    @abstractmethod
     def overlap(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def H_core(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def kinetic(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def nuclear_attraction(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def two_electron(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def form_fock(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def diag_fock(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
+    @abstractmethod
     def form_DM(self):
-        raise NotImplementedError('Need to implement method')
+        pass
 
     def calculate_E_elec(self):
         self.E_elec = np.sum(np.multiply(self.D, (self.H + self.F)))
